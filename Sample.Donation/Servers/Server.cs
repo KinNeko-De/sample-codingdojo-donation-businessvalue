@@ -11,9 +11,13 @@ public class Server
         Database = database;
     }
 
-    public async Task<int> UpdateDonation(int donation)
+    public async Task<int> GetTotalDonations()
+    {
+        return await Database.GetTotalDonations();
+    }
+
+    public async Task UpdateDonation(int donation)
     {
         await Database.AddDonation(donation);
-        return await Database.GetTotalDonations();
     }
 }

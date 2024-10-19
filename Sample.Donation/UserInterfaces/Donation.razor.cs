@@ -15,10 +15,24 @@ public partial class Donation
 
     public string DonateText => AlreadyDonated ? "Donate more" : "Donate";
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await GetTotalDonations();
+        }
+    }
+
     private async Task Donate()
     {
-        Total = await Server.UpdateDonation(MyDonation);
+        await Server.UpdateDonation(MyDonation);
         AlreadyDonated = true;
         MyDonation = 0;
+        await GetTotalDonations();
+    }
+
+    private async Task GetTotalDonations()
+    {
+        Total = await Server.GetTotalDonations();
     }
 }
